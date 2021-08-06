@@ -22,7 +22,7 @@ import java.io.PrintWriter;
         }
 )
 
-/**
+/*
  * Creating LoginServlet class which extend the HttpServlet abstract class which contain the methods
  * that will be override in this LoginServlet class.
  */
@@ -50,9 +50,19 @@ public class LoginServlet extends HttpServlet {
          *  User Name start with the Capital letter.
          *  It has minimum three character.
          */
-        String regexName = "^[A-Z]{1}[a-zA-Z]{2,}$";
+        String regexName = "^[A-Z][a-zA-Z]{2,}$";
 
-        if(userID.equals(user) && userID.matches(regexName) && password.equals(pwd)) {
+
+		/*
+		 *  Validating password using Regular Expression
+		  			 Rule1 – minimum 8 Characters
+		  			 Rule2 – Should have at least 1 Upper Case
+ 					 Rule3 – Should have at least 1 numeric number in the password
+					 Rule4 – Has exactly 1 Special Character
+		 */
+        String regexPassword = "^(?=.*[0-9])(?=[^@#$%^&+=]*[@#$%^&+=][^@#$%^&+=]*$)(?=.*[a-z])(?=.*[A-Z]).{8,}$";
+
+        if(userID.equals(user) && userID.matches(regexName) && password.equals(pwd) && password.matches(regexPassword)) {
             req.setAttribute("user", user);
             req.getRequestDispatcher("LoginSuccess.jsp").forward(req, resp);
         } else {
