@@ -44,7 +44,15 @@ public class LoginServlet extends HttpServlet {
         //get servlet config init params
         String userID = getServletConfig().getInitParameter("user");
         String password = getServletConfig().getInitParameter("password");
-        if(userID.equals(user) && password.equals(pwd)) {
+
+        /*
+         *  Validating of UserName by using java Regular Expression.
+         *  User Name start with the Capital letter.
+         *  It has minimum three character.
+         */
+        String regexName = "^[A-Z]{1}[a-zA-Z]{2,}$";
+
+        if(userID.equals(user) && userID.matches(regexName) && password.equals(pwd)) {
             req.setAttribute("user", user);
             req.getRequestDispatcher("LoginSuccess.jsp").forward(req, resp);
         } else {
